@@ -1,0 +1,269 @@
+{
+  "schema": {
+    "labels":{},
+    "additional_members": {
+            "section_1": {
+                "type": "str",
+                "number_dims": 0
+            }
+        }
+
+  },
+  "AGI_STUB":{
+    "title": "AGI Group to Target",
+    "description": "Filing units are organized into 10 AGI bins, as defined by Historical Table 2.",
+    "type": "int",
+    "section_1": "AGI Group",
+    "value": [
+      {
+        "value": 1
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 1,
+        "max": 10
+      }
+    }
+  },
+  "N1_targ":{
+    "title": "Population",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "MARS1_targ":{
+    "title": "Number of Single Returns",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "MARS2_targ":{
+    "title": "Number of Joint Returns",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "A00100_targ":{
+    "title": "AGI Amount",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "A00200_targ":{
+    "title": "Salary and Wage Amount",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "N00200_targ":{
+    "title": "Number of Returns with Nonzero Salary and Wage",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "A01000_targ":{
+    "title": "Capital Gains Amount",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "N01000_targ":{
+    "title": "Number of Returns with Nonzero Capital Gains",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "A04470_targ":{
+    "title": "Itemized Deduction Amount (0 if Standard Deduction)",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "N04470_targ":{
+    "title": "Number of Returns that Itemize Deductions",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "A17000_targ":{
+    "title": "Medical Expenses Deducted Amount",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "N17000_targ":{
+    "title": "Number of Returns that Deduct Medical Expenses",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "A04800_targ":{
+    "title": "Taxable Income Amount",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "N04800_targ":{
+    "title": "Number of Returns with Nonzero Taxable Income",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "A05800_targ":{
+    "title": "Regular Tax Before Credits Amount",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "N05800_targ":{
+    "title": "Number of Returns with Nonzero Regular Tax Before Credits",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "A09600_targ":{
+    "title": "AMT Amount",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "N09600_targ":{
+    "title": "Number of Returns with Nonzero AMT",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "A00700_targ":{
+    "title": "SALT Deduction Amount",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  },
+  "N00700_targ":{
+    "title": "Number of Returns with Nonzero SALT Deduction",
+    "description": "Add to targets.",
+    "type": "bool",
+    "section_1": "Targets",
+    "value": [
+      {
+        "value": false
+      }
+    ],
+    "validators": {}
+  }
+}
