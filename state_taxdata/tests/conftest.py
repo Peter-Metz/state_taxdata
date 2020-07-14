@@ -5,10 +5,10 @@ from prepdata import PrepData
 
 
 ADJUSTMENT = {
-	"AGI_STUB": [{"value": 6}],
-	"MARS1_targ": [{"value": True}],
-	"A00200_targ": [{"value": True}],
-	"posAGI_targ": [{"value": True}],
+    "AGI_STUB": [{"value": 6}],
+    "MARS1_targ": [{"value": True}],
+    "A00200_targ": [{"value": True}],
+    "N04470_targ": [{"value": True}],
 }
 
 @pytest.fixture(scope="session")

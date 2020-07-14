@@ -265,5 +265,39 @@
       }
     ],
     "validators": {}
+  },
+  "Addup_tol":{
+    "title": "Tolerance for adding up constraints",
+    "description": "Upper/lower bounds for state weights adding up constraints will be this percentage away from the filing unit's national weight.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "Aggregate_tol":{
+    "title": "Tolerance for aggregate constraints",
+    "description": "Upper/lower bounds for aggregate constraints will be this percentage away from the target values.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
   }
 }

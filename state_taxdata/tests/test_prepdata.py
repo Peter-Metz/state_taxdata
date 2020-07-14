@@ -17,7 +17,7 @@ ADJUSTMENT = {
 
 
 def test_choose_targets(data_with_targs):
-    AGI_STUB, targ_list, var_list = data_with_targs.choose_targets(ADJUSTMENT)
+    AGI_STUB, targ_list, var_list = data_with_targs.choose_targets()
 
     assert isinstance(AGI_STUB, np.int64)
     assert isinstance(targ_list, list)
@@ -36,7 +36,7 @@ def test_choose_targets(data_with_targs):
 
 def test_prepare_puf(data_with_targs, puf_prep):
 
-    AGI_STUB, targ_list, var_list = data_with_targs.choose_targets(ADJUSTMENT)
+    AGI_STUB, targ_list, var_list = data_with_targs.choose_targets()
 
     for var in ["N1", "AGI_STUB", "s006", "pid"]:
         assert var in puf_prep.columns
@@ -48,7 +48,7 @@ def test_prepare_puf(data_with_targs, puf_prep):
 
 
 def test_puf_summary(data_with_targs, puf_prep, puf_sum):
-    AGI_STUB, targ_list, var_list = data_with_targs.choose_targets(ADJUSTMENT)
+    AGI_STUB, targ_list, var_list = data_with_targs.choose_targets()
 
     assert len(puf_sum.index) == len(var_list)
     n1_weighted = (puf_prep["N1"] * puf_prep["s006"]).sum()
@@ -86,7 +86,7 @@ def test_state_targets_long(
 ):
 
     state_list = list(ratios["STATE"].unique())
-    AGI_STUB, targ_list, var_list = data_with_targs.choose_targets(ADJUSTMENT)
+    AGI_STUB, targ_list, var_list = data_with_targs.choose_targets()
 
     # Note that even if N1 is not a target, we need to include it in
     # this count because N1 is used for initial weight calculations

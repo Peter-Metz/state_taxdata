@@ -90,7 +90,9 @@ class PrepData:
 
     def __init__(self, adjustment={}):
 
-        self.AGI_STUB, self.targ_list, self.var_list = self.choose_targets(adjustment)
+        self.params = TAXDATA_PARAMS()
+        self.params.adjust(adjustment)
+        self.AGI_STUB, self.targ_list, self.var_list = self.choose_targets()
         self.puf_2017_filter = self.prepare_puf()
         self.puf_sum = self.puf_summary()
         self.ratio_df = self.calc_ratios()
@@ -99,16 +101,16 @@ class PrepData:
         self.iweights = self.initial_weights()
         self.dense = self.cc_dense()
 
-    def choose_targets(self, adjustment):
+    def choose_targets(self):
         """
         Use ParamTools to generate list of user-specified targets and AGI group
         """
-        params = TAXDATA_PARAMS()
-        params.adjust(adjustment)
-        AGI_STUB = params.to_array("AGI_STUB")
+        # params = TAXDATA_PARAMS()
+        # params.adjust(adjustment)
+        AGI_STUB = self.params.to_array("AGI_STUB")
 
         targ_list = []
-        for k, v in params.dump().items():
+        for k, v in self.params.dump().items():
             if v.get("section_1") == "Targets" and v.get("value")[0]["value"] is True:
                 targ_list.append(k.split("_")[0])
         var_list = list(targ_list)
@@ -429,11 +431,52 @@ class PrepData:
 
         return combine()
 
+    def get_constraint_bounds(self):
+        agg_tol_df = self.targets_long[["targtype", "cname", "value"]].copy()
+        agg_tol_df = agg_tol_df[agg_tol_df["targtype"] == "aggregate"]
+        agg_tol_df = agg_tol_df.drop("targtype", axis=1)
+        # TODO: it looks like IPOPT will ultimately need a list with clb
+        # and cub.
+        agg_tol = self.params.to_array("Aggregate_tol")
+        agg_clb = np.where(
+            pd.isnull(agg_tol_df["value"]),
+            -9e99,
+            agg_tol_df["value"] - (abs(agg_tol_df["value"]) * agg_tol),
+        )
+        agg_cub = np.where(
+            pd.isnull(agg_tol_df["value"]),
+            9e99,
+            agg_tol_df["value"] + (abs(agg_tol_df["value"]) * agg_tol),
+        )
+        agg_tol_df["clb"] = agg_clb
+        agg_tol_df["cub"] = agg_cub
+
+        addup_tol_df = self.targets_long[["targtype", "cname", "value"]].copy()
+        addup_tol_df = addup_tol_df[addup_tol_df["targtype"] == "addup"]
+        addup_tol_df = addup_tol_df.drop("targtype", axis=1)
+
+        addup_tol = self.params.to_array("Addup_tol")
+        add_clb = np.where(
+            pd.isnull(addup_tol_df["value"]),
+            -9e99,
+            addup_tol_df["value"] - (abs(addup_tol_df["value"]) * addup_tol),
+        )
+        add_cub = np.where(
+            pd.isnull(addup_tol_df["value"]),
+            9e99,
+            addup_tol_df["value"] + (abs(addup_tol_df["value"]) * addup_tol),
+        )
+        addup_tol_df["clb"] = add_clb
+        addup_tol_df["cub"] = add_cub
+
+        tol_df = pd.concat([agg_tol_df, addup_tol_df])
+        return tol_df
+
     def compare_national_puf_ht2(self):
-        '''
+        """
         Compares national totals from PUF to national totals from HT2
         for the chosen target variables and AGI group.
-        '''
+        """
 
         ht2 = pd.read_csv("data/17in54cmcsv.csv")
 
@@ -452,28 +495,28 @@ class PrepData:
 
             puf_val = (puf_temp[var] * puf_temp["s006"]).sum()
             perc_dif = round(((puf_val - ht2_val) / ht2_val), 3)
-            var_dif = pd.Series(dtype='float64')
+            var_dif = pd.Series(dtype="float64")
             var_dif = pd.Series(
                 data={
                     "HT2_value": ht2_val / 1e6,
                     "PUF_val": puf_val / 1e6,
                     "perc_dif": perc_dif,
                 },
-                name=var
+                name=var,
             )
             compare_df = compare_df.append(var_dif, ignore_index=False)
         return compare_df
 
     def compare_state_puf_ht2(self):
-        '''
+        """
         Compares totals by state from PUF (calculated using HT2 ratios)
         to state totals from HT2 for the chosen target variables and AGI group.
-        '''
+        """
         ht2 = pd.read_csv("data/17in54cmcsv.csv")
         # Filter HT2 by AGI stub
-        ht2_stub = ht2[ht2['AGI_STUB']==self.AGI_STUB]
+        ht2_stub = ht2[ht2["AGI_STUB"] == self.AGI_STUB]
 
-        states = list(ht2['STATE'].unique())
+        states = list(ht2["STATE"].unique())
         states.pop(0)
 
         # We will calculate state PUF totals from cc_dense
@@ -483,10 +526,10 @@ class PrepData:
         # Loop through each state
         for state in states:
             # Filter HT2 and cc_dense by state
-            state_df = ht2_stub[ht2_stub['STATE']==state]
-            state_dense = cc_dense[cc_dense['STATE']==state]
+            state_df = ht2_stub[ht2_stub["STATE"] == state]
+            state_dense = cc_dense[cc_dense["STATE"] == state]
             row = {}
-            row['state'] = state
+            row["state"] = state
             row_df = pd.DataFrame()
             # Loop through each target variable
             for var in self.targ_list:
@@ -495,11 +538,11 @@ class PrepData:
                     ht2_val = state_df[var] * 1000
                 else:
                     ht2_val = state_df[var]
-                
-                targ_name = var + '_targ'
+
+                targ_name = var + "_targ"
                 puf_val = state_dense[targ_name].sum()
                 perc_dif = round(((puf_val - ht2_val) / ht2_val), 3)
                 row[var] = perc_dif
             row_df = pd.DataFrame.from_dict(row)
             diff_df = pd.concat([diff_df, row_df])
-        return diff_df.set_index('state')
+        return diff_df.set_index("state")
