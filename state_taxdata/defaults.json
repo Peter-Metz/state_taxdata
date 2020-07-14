@@ -266,6 +266,329 @@
     ],
     "validators": {}
   },
+  "N1_tol":{
+    "title": "Population Contraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "MARS1_tol":{
+    "title": "Number of Single Returns Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "MARS2_tol":{
+    "title": "Number of Joint Returns Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "A00200_tol":{
+    "title": "Salary and Wage Amount Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "N00200_tol":{
+    "title": "Number of Returns with Nonzero Salary and Wage Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "A01000_tol":{
+    "title": "Capital Gains Amount Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "N01000_tol":{
+    "title": "Number of Returns with Nonzero Capital Gains Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "A04470_tol":{
+    "title": "Itemized Deduction Amount (0 if Standard Deduction) Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "N04470_tol":{
+    "title": "Number of Returns that Itemize Deductions Constrain Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "A17000_tol":{
+    "title": "Medical Expenses Deducted Amount Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "N17000_tol":{
+    "title": "Number of Returns that Deduct Medical Expenses Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "A04800_tol":{
+    "title": "Taxable Income Amount Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "N04800_tol":{
+    "title": "Number of Returns with Nonzero Taxable Income Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "A05800_tol":{
+    "title": "Regular Tax Before Credits Amount Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "N05800_tol":{
+    "title": "Number of Returns with Nonzero Regular Tax Before Credits Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "A09600_tol":{
+    "title": "AMT Amount Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "N09600_tol":{
+    "title": "Number of Returns with Nonzero AMT Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "A00700_tol":{
+    "title": "SALT Deduction Amount Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
+  "N00700_tol":{
+    "title": "Number of Returns with Nonzero SALT Deduction Constraint Tolerance",
+    "description": "Allow for this percentage deviation from target.",
+    "type": "float",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": 0.05
+      }
+    ],
+    "validators": {
+      "range": {
+        "min": 0,
+        "max": 9e99
+      }
+    }
+  },
   "Addup_tol":{
     "title": "Tolerance for adding up constraints",
     "description": "Upper/lower bounds for state weights adding up constraints will be this percentage away from the filing unit's national weight.",
@@ -282,9 +605,21 @@
         "max": 9e99
       }
     }
+  }, 
+  "Aggregate_tol_all":{
+    "title": "Tolerance for all aggregate constraints",
+    "description": "Upper/lower bounds for aggregate constraints will be this percentage away from the target values.",
+    "type": "bool",
+    "section_1": "Tolerances",
+    "value": [
+      {
+        "value": true
+      }
+    ],
+    "validators": {}
   },
   "Aggregate_tol":{
-    "title": "Tolerance for aggregate constraints",
+    "title": "Tolerance for all aggregate constraints",
     "description": "Upper/lower bounds for aggregate constraints will be this percentage away from the target values.",
     "type": "float",
     "section_1": "Tolerances",

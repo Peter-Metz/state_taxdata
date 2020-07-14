@@ -432,25 +432,57 @@ class PrepData:
         return combine()
 
     def get_constraint_bounds(self):
-        agg_tol_df = self.targets_long[["targtype", "cname", "value"]].copy()
+        """
+        Calculate upper and lower constraint bounds for each constraint (aggregate
+        and addup).
+
+        The tolerances for each aggregate constraint are the same if
+        "Aggregate_tol_all" is True. In this case, the tolerance can be set with
+        "Aggregate_tol". If "Aggregate_tol_all" is False, the tolerance for each
+        constraint can be set individually with the parameters in the form
+        "*_tol".
+
+        The tolerance for the addup constraints can be set with "Addup_tol".
+        """
+        agg_tol_df = self.targets_long[
+            ["variable", "targtype", "cname", "value"]
+        ].copy()
         agg_tol_df = agg_tol_df[agg_tol_df["targtype"] == "aggregate"]
         agg_tol_df = agg_tol_df.drop("targtype", axis=1)
-        # TODO: it looks like IPOPT will ultimately need a list with clb
-        # and cub.
-        agg_tol = self.params.to_array("Aggregate_tol")
+
+        # If Aggregate_tol_all is True, tolerances are the same across target
+        # variables
+        if self.params.to_array("Aggregate_tol_all"):
+            agg_tol_df["tol"] = self.params.to_array("Aggregate_tol")
+        # If Aggregate_tol_all is False, extract individual target tolerances
+        # from respective parameters and merge onto target dataframe.
+        else:
+            tol_dict = {}
+            for var in self.var_list:
+                targ_var = var + "_targ"
+                tol_var = var + "_tol"
+                tol_dict[targ_var] = self.params.to_array(tol_var)
+            tol_df = pd.DataFrame.from_dict(tol_dict, orient="index")
+            tol_df = tol_df.reset_index().rename(
+                {"index": "variable", 0: "tol"}, axis=1
+            )
+            agg_tol_df = agg_tol_df.merge(tol_df, on="variable")
+
+        # Calculate upper and lower bounds for aggregate targets
         agg_clb = np.where(
             pd.isnull(agg_tol_df["value"]),
             -9e99,
-            agg_tol_df["value"] - (abs(agg_tol_df["value"]) * agg_tol),
+            agg_tol_df["value"] - (abs(agg_tol_df["value"]) * agg_tol_df["tol"]),
         )
         agg_cub = np.where(
             pd.isnull(agg_tol_df["value"]),
             9e99,
-            agg_tol_df["value"] + (abs(agg_tol_df["value"]) * agg_tol),
+            agg_tol_df["value"] + (abs(agg_tol_df["value"]) * agg_tol_df["tol"]),
         )
         agg_tol_df["clb"] = agg_clb
         agg_tol_df["cub"] = agg_cub
 
+        # Construct dataframe for adding up constrains
         addup_tol_df = self.targets_long[["targtype", "cname", "value"]].copy()
         addup_tol_df = addup_tol_df[addup_tol_df["targtype"] == "addup"]
         addup_tol_df = addup_tol_df.drop("targtype", axis=1)
@@ -468,6 +500,7 @@ class PrepData:
         )
         addup_tol_df["clb"] = add_clb
         addup_tol_df["cub"] = add_cub
+        addup_tol_df["tol"] = addup_tol
 
         tol_df = pd.concat([agg_tol_df, addup_tol_df])
         return tol_df
