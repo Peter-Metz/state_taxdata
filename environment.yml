@@ -9,7 +9,6 @@ dependencies:
 - numpy
 - paramtools
 - pytest
-- math
 - pip
 - pip:
   - cs-kit
