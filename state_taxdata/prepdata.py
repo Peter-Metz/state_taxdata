@@ -90,6 +90,10 @@ class PrepData:
 
     def __init__(self, adjustment={}):
 
+        CURRENT_PATH = os.path.abspath(os.path.dirname(__file__))
+        HT2_PATH = os.path.join(CURRENT_PATH, "data/17in54cmcsv.csv")
+
+        self.ht2_path = HT2_PATH
         self.params = TAXDATA_PARAMS()
         self.params.adjust(adjustment)
         self.AGI_STUB, self.targ_list, self.var_list = self.choose_targets()
@@ -100,6 +104,9 @@ class PrepData:
         self.targets_long = self.state_targets_long()
         self.iweights = self.initial_weights()
         self.dense = self.cc_dense()
+
+        
+        # self.ht2 = pd.read_csv(ht2_path)
 
     def choose_targets(self):
         """
@@ -219,7 +226,7 @@ class PrepData:
         # Read in HT2
         # NOTE: before reading csv, I cleared number formatting in
         # excel to get rid of thousands comma separator
-        ht2 = pd.read_csv("data/17in54cmcsv.csv")
+        ht2 = pd.read_csv(self.ht2_path)
 
         # Filter for US
         ht2_us = ht2[ht2["STATE"] == "US"]
@@ -511,7 +518,7 @@ class PrepData:
         for the chosen target variables and AGI group.
         """
 
-        ht2 = pd.read_csv("data/17in54cmcsv.csv")
+        ht2 = pd.read_csv(self.ht2_path)
 
         # Filter for US
         ht2_us = ht2[ht2["STATE"] == "US"]
@@ -545,7 +552,7 @@ class PrepData:
         Compares totals by state from PUF (calculated using HT2 ratios)
         to state totals from HT2 for the chosen target variables and AGI group.
         """
-        ht2 = pd.read_csv("data/17in54cmcsv.csv")
+        ht2 = pd.read_csv(self.ht2_path)
         # Filter HT2 by AGI stub
         ht2_stub = ht2[ht2["AGI_STUB"] == self.AGI_STUB]
 
