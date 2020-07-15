@@ -1,7 +1,7 @@
 import pytest
 import pandas as pd
 import numpy as np
-from prepdata import PrepData
+from state_taxdata.prepdata import PrepData
 
 
 ADJUSTMENT = {

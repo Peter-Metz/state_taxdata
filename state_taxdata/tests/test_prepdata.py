@@ -3,7 +3,7 @@ import os
 import math
 import pandas as pd
 import numpy as np
-from prepdata import PrepData
+from state_taxdata.prepdata import PrepData
 
 
 CURRENT_PATH = os.path.abspath(os.path.dirname(__file__))
