@@ -1,0 +1,15 @@
+name: statedata-dev
+channels:
+- PSLmodels
+- conda-forge
+dependencies:
+- python
+- taxcalc
+- pandas
+- numpy
+- paramtools
+- pytest
+- math
+- pip
+- pip:
+  - cs-kit
