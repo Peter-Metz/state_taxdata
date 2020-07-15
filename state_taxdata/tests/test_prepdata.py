@@ -69,10 +69,10 @@ def test_calc_ratios(ratios):
     assert state_list == ratio_state
 
 
-def test_state_targets_wide(targets_wide, puf_sum):
+def test_state_targets_wide(data_with_targs, targets_wide, puf_sum):
 
-    targ_vars = ["MARS1_targ", "A00200_targ", "N04470_targ", "N1_targ"]
-    sum_vars = ["MARS1", "A00200", "N04470", "N1"]
+    targ_vars = [var + "_targ" for var in data_with_targs.var_list]
+    sum_vars = data_with_targs.var_list
 
     for targ, var in zip(targ_vars, sum_vars):
         targ_total = targets_wide[targ].sum()
@@ -102,7 +102,7 @@ def test_state_targets_long(
     addup_cname_unique = len(addup_filter["cname"].unique())
     assert exp_num_addup_rows == act_num_addup_rows == addup_cname_unique
 
-    targ_vars = ["MARS1_targ", "A00200_targ", "N04470_targ", "N1_targ"]
+    targ_vars = [var + "_targ" for var in data_with_targs.var_list]
 
     for targ in targ_vars:
         long_filter = targets_long[targets_long["variable"] == targ]
@@ -117,17 +117,65 @@ def test_state_targets_long(
 
 def test_initial_weights(iweights, puf_prep):
 
-    pid_unique = len(iweights['pid'].unique())
-    states_unique = len(iweights['STATE'].unique())
+    pid_unique = len(iweights["pid"].unique())
+    states_unique = len(iweights["STATE"].unique())
+
     # There should be a row for each person-state combination
     assert len(iweights.index) == (pid_unique * states_unique)
-    state_share_sum = iweights['st_share'].sum()
+    state_share_sum = iweights["st_share"].sum()
     assert math.isclose(pid_unique, state_share_sum, abs_tol=0.0001)
     assert pid_unique == len(puf_prep.index)
-    state_weights_sum = iweights['iweight_state'].sum()
-    s006_sum = puf_prep['s006'].sum()
+
+    state_weights_sum = iweights["iweight_state"].sum()
+    s006_sum = puf_prep["s006"].sum()
     assert math.isclose(state_weights_sum, s006_sum, abs_tol=0.0001)
 
 
+def test_cc_dense(dense, ratios, puf_prep, puf_sum, data_with_targs):
+    # Check states
+    cc_states = dense["STATE"].unique()
+    ratios_states = ratios["STATE"].unique()
+    assert len(cc_states) == len(ratios_states)
+
+    # Number of people in cc_dense should be same as the filtered puf
+    cc_pid = dense["pid"].unique()
+    puf_pid = puf_prep["pid"].unique()
+    assert len(cc_pid) == len(puf_pid)
+
+    # One row for each person-state combination
+    assert len(dense.index) == (len(cc_states) * len(cc_pid))
+
+    # Check sums for each target var
+    for targ in data_with_targs.targ_list:
+        targ_var = targ + "_targ"
+        cc_sum = dense[targ_var].sum()
+        puf_sum_val = puf_sum.loc[targ]
+        assert math.isclose(cc_sum, puf_sum_val, abs_tol=0.001)
+
+    cc_weight_sum = dense["iweight_state"].sum()
+    puf_sum_n1 = puf_sum.loc["N1"]
+    assert math.isclose(cc_weight_sum, puf_sum_n1, abs_tol=0.001)
 
 
+def test_cc_sparse(sparse, dense, data_with_targs, iweights):
+    # Separate aggregate constraints from addup
+    sparse_agg = sparse[sparse["targtype"] == "aggregate"]
+    sparse_addup = sparse[sparse["targtype"] == "addup"]
+
+    targs = [var + "_targ" for var in data_with_targs.targ_list]
+
+    # Length of cc_sparse should be the number of nonzero values
+    # in cc_dense
+    dense_vars = dense[targs].copy()
+    dense_nonzero = np.count_nonzero(dense_vars)
+    assert len(sparse_agg.index) == dense_nonzero
+
+    # The sums of cc_sparse and cc_dense should be the same
+    dense_total_sum = dense_vars.sum().sum()
+    sparse_sum = sparse_agg["nzcc"].sum()
+    assert math.isclose(dense_total_sum, sparse_sum, abs_tol=0.001)
+
+    # Addup nzcc should be initial state weights
+    iweights_total = iweights["iweight_state"].sum()
+    addup_total = sparse_addup["nzcc"].sum()
+    assert math.isclose(iweights_total, addup_total, abs_tol=0.001)
