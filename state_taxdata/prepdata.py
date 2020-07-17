@@ -106,8 +106,6 @@ class PrepData:
         self.dense = self.cc_dense()
 
         
-        # self.ht2 = pd.read_csv(ht2_path)
-
     def choose_targets(self):
         """
         Use ParamTools to generate list of user-specified targets and AGI group
@@ -538,7 +536,7 @@ class PrepData:
             var_dif = pd.Series(dtype="float64")
             var_dif = pd.Series(
                 data={
-                    "HT2_value": ht2_val / 1e6,
+                    "HT2_val": ht2_val / 1e6,
                     "PUF_val": puf_val / 1e6,
                     "perc_dif": perc_dif,
                 },
