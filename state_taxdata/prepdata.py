@@ -26,7 +26,7 @@ class PrepData:
     PUF values and aggregate HT2 values for the chosen target
     variables and AGI group.
 
-    Parameter
+    Parameters
     ---------
     adjustment: ParamTools-style dictionary to adjust targets
         and AGI group. The default parameter values for all
@@ -40,6 +40,11 @@ class PrepData:
             "A00200_targ": [{"value": True}],
             "N04470_targ": [{"value": True}],
         }
+
+    puf_df: The purpose of this parameter is to allow the CS
+    web app to use the PUF from the OSPC S3 bucket. When calling
+    the Python API, it is receommended to keep this parameter
+    set to None.
 
     Returns
     -------
@@ -88,11 +93,12 @@ class PrepData:
         "e00700_n": "N00700",  # SALT number
     }
 
-    def __init__(self, adjustment={}):
+    def __init__(self, adjustment={}, puf_df=None):
 
         CURRENT_PATH = os.path.abspath(os.path.dirname(__file__))
         HT2_PATH = os.path.join(CURRENT_PATH, "data/17in54cmcsv.csv")
 
+        self.puf_df = puf_df
         self.ht2_path = HT2_PATH
         self.params = TAXDATA_PARAMS()
         self.params.adjust(adjustment)
@@ -106,8 +112,6 @@ class PrepData:
         self.dense = self.cc_dense()
 
         
-        # self.ht2 = pd.read_csv(ht2_path)
-
     def choose_targets(self):
         """
         Use ParamTools to generate list of user-specified targets and AGI group
@@ -137,7 +141,11 @@ class PrepData:
             Extrapolate PUF to 2017
             """
             pol = Policy()
-            recs = Records()
+            if self.puf_df == None:
+                recs = Records()
+            else:
+                assert isinstance(self.puf_df, pd.DataFrame)
+                recs = Records(self.puf_df)
             calc = Calculator(pol, recs)
             calc.advance_to_year(2017)
             calc.calc_all()
@@ -538,7 +546,7 @@ class PrepData:
             var_dif = pd.Series(dtype="float64")
             var_dif = pd.Series(
                 data={
-                    "HT2_value": ht2_val / 1e6,
+                    "HT2_val": ht2_val / 1e6,
                     "PUF_val": puf_val / 1e6,
                     "perc_dif": perc_dif,
                 },

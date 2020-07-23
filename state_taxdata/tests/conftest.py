@@ -52,3 +52,12 @@ def dense():
 @pytest.fixture(scope="session")
 def sparse():
 	return pd.cc_sparse()
+
+@pytest.fixture(scope="session")
+def compare_national():
+	return pd.compare_national_puf_ht2()
+
+@pytest.fixture(scope="session")
+def compare_state():
+	return pd.compare_state_puf_ht2()
+

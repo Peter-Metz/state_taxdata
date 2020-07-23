@@ -179,3 +179,14 @@ def test_cc_sparse(sparse, dense, data_with_targs, iweights):
     iweights_total = iweights["iweight_state"].sum()
     addup_total = sparse_addup["nzcc"].sum()
     assert math.isclose(iweights_total, addup_total, abs_tol=0.001)
+
+
+def test_compare_national_puf_ht2(
+    compare_national, puf_sum, data_with_targs, targets_wide
+):
+    for var in data_with_targs.var_list:
+        compare_puf_val = compare_national.loc[var, "PUF_val"]
+        sum_puf_val = puf_sum.loc[var] / 1e6
+        assert math.isclose(compare_puf_val, sum_puf_val, abs_tol=0.001)
+
+        # The way to test the HT_2 values would be the same code as in prepdata.py
