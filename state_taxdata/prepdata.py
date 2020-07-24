@@ -17,9 +17,10 @@ class PrepData:
     Contructor for PrepData class.
 
     The purpose of this class is to construct the input data needed
-    by IPOPT to generate state weights. In particular, we need
-    to generate target values, intial state weights, and a sparse
-    matrix of constraint coefficients.
+    by nonlinear optimization software to generate state weights. In
+    particular, we need to generate target values, intial state weights,
+    upper/lower bounds for each constraint, and a sparse matrix of
+    constraint coefficients.
 
     In addition, the compare_national_puf_ht2() and
     compare_state_puf_ht2() methods allow for comparison of aggregate
@@ -116,8 +117,6 @@ class PrepData:
         """
         Use ParamTools to generate list of user-specified targets and AGI group
         """
-        # params = TAXDATA_PARAMS()
-        # params.adjust(adjustment)
         AGI_STUB = self.params.to_array("AGI_STUB")
 
         targ_list = []
