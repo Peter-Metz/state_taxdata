@@ -4,6 +4,7 @@ except ImportError:
     boto3 = None
 import gzip
 import csv
+import pandas as pd
 
 
 def retrieve_puf(aws_access_key_id, aws_secret_access_key):
