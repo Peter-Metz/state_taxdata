@@ -140,7 +140,7 @@ class PrepData:
             Extrapolate PUF to 2017
             """
             pol = Policy()
-            if self.puf_df == None:
+            if self.puf_df is None:
                 recs = Records()
             else:
                 assert isinstance(self.puf_df, pd.DataFrame)
